@@ -19,14 +19,14 @@ class Edificio(models.Model):
         # valor = [t.costo_plan for t in self.numeros_telefonicos.all()]
         # valor = sum(valor)  # [10.2, 20]
         valor = 0;
-        for t in self.numeros_depa.all(): # self.num_telefonicos -> me devuelve un listado de obj de tipo NumeroTelefonico
+        for t in self.edificio_depa.all(): # self.num_telefonicos -> me devuelve un listado de obj de tipo NumeroTelefonico
             valor = valor + t.costo_depa
         return valor
 
     def obtener_cantidad_cuartos(self):
         """
         """
-        valor = len(self.numeros_cuartos.all())
+        valor = len(self.edificio_depa.all())
         return valor
 
 
@@ -36,7 +36,7 @@ class Departamento(models.Model):
     num_cuartos= models.IntegerField(max_digits=3)
 
     edificio= models.ForeignKey(Edificio, on_delete=models.CASCADE,
-            related_name="edificios")
+            related_name="edificio_depa")
 
     def __str__(self):
         return "%s %d" % (self.nombre,self.num_cuartos)

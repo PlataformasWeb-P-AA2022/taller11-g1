@@ -2,18 +2,17 @@ from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 from django import forms
 
-from administrativo.models import Estudiante, \
-        NumeroTelefonico
+from administrativo.models import Edificio, Departamento
 
-class EstudianteForm(ModelForm):
+class EdificioForm(ModelForm):
     class Meta:
-        model = Estudiante
-        fields = ['nombre', 'apellido', 'cedula', 'correo']
+        model = Edificio
+        fields = ['nombre', 'direccion', 'ciudad', 'tipo']
         labels = {
             'nombre': _('Ingrese nombre por favor'),
-            'apellido': _('Ingrese apellido por favor'),
-            'cedula': _('Ingrese cédula por favor'),
-            'correo': _('Ingrese correo por favor'),
+            'direccion': _('Ingrese la direccion'),
+            'ciudad': _('Ingrese la ciudad por favor'),
+            'tipo': _('Ingrese el tipo por favor'),
         }
 
 
@@ -25,41 +24,41 @@ class EstudianteForm(ModelForm):
             raise forms.ValidationError("Ingrese dos nombre por favor")
         return valor
 
-    def clean_apellido(self):
-        valor = self.cleaned_data['apellido']
+    def clean_direccion(self):
+        valor = self.cleaned_data['direccion']
+        return valor
+
+    def clean_ciudad(self):
+        valor = self.cleaned_data['ciudad']
         num_palabras = len(valor.split())
 
-        if num_palabras < 2:
-            raise forms.ValidationError("Ingrese dos apellidos por favor")
+        if num_palabras < 1:
+            raise forms.ValidationError("Ingrese una ciudad ")
         return valor
 
-    def clean_cedula(self):
-        valor = self.cleaned_data['cedula']
-        if len(valor) != 10:
-            raise forms.ValidationError("Ingrese cédula con 10 dígitos")
-        return valor
+    def clean_tipo(self):
+        valor = self.cleaned_data['tipo']
+        num_palabras = len(valor.split())
 
-    def clean_correo(self):
-        valor = self.cleaned_data['correo']
-        if "@" not in valor or "utpl.edu.ec" not in valor:
-            raise forms.ValidationError("Ingrese correo válido para la Universidad")
+        if num_palabras < 1:
+            raise forms.ValidationError("Seleccione uno por favor")
         return valor
 
 
-class NumeroTelefonicoForm(ModelForm):
+class NumeroDepaForm(ModelForm):
     class Meta:
-        model = NumeroTelefonico
-        fields = ['telefono', 'tipo', 'estudiante',  'costo_plan']
+        model = Departamento
+        fields = ['nombre', 'costo_depa', 'num_cuartos',  'edificio']
 
 
-class NumeroTelefonicoEstudianteForm(ModelForm):
+class NumeroDepaEdificioForm(ModelForm):
 
-    def __init__(self, estudiante, *args, **kwargs):
-        super(NumeroTelefonicoEstudianteForm, self).__init__(*args, **kwargs)
-        self.initial['estudiante'] = estudiante
-        self.fields["estudiante"].widget = forms.widgets.HiddenInput()
-        print(estudiante)
+    def __init__(self, edificio, *args, **kwargs):
+        super(NumeroDepaEdificioForm, self).__init__(*args, **kwargs)
+        self.initial['edificio'] = edificio
+        self.fields["edificio"].widget = forms.widgets.HiddenInput()
+        print(edificio)
 
     class Meta:
-        model = NumeroTelefonico
-        fields = ['telefono', 'tipo', 'estudiante', 'costo_plan']
+        model = Departamento
+        fields = ['nombre', 'costo_depa', 'num_cuartos',  'edificio']
