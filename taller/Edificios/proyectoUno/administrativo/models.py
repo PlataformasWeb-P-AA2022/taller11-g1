@@ -4,9 +4,9 @@ from django.db import models
 
 class Edificio(models.Model):
     tipo_edificio = (('residencial','Edificio Residencial'),('comercial','Edificio comercial'))
-    nombre = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=30, unique=True)
     direccion= models.CharField(max_length=30)
-    ciudad = models.CharField(max_length=30, unique=True)
+    ciudad = models.CharField(max_length=30)
     tipo = models.CharField(max_length=30, choices=tipo_edificio)
 
     def __str__(self):
