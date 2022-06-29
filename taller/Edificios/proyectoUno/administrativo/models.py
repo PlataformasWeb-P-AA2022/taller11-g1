@@ -26,7 +26,9 @@ class Edificio(models.Model):
     def obtener_cantidad_cuartos(self):
         """
         """
-        valor = len(self.edificio_depa.all())
+        valor = 0;
+        for t in self.edificio_depa.all(): # self.num_telefonicos -> me devuelve un listado de obj de tipo NumeroTelefonico
+            valor = valor + t.num_cuartos
         return valor
 
 
