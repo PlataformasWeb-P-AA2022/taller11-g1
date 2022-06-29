@@ -65,7 +65,7 @@ class NumeroDepaForm(ModelForm):
         valor = self.cleaned_data['num_cuartos']
         num_palabras = (valor)
 
-        if num_palabras <= 1 or num_palabras >= 7:
+        if num_palabras < 1 or num_palabras > 7:
             raise forms.ValidationError("Ingrese numero de cuartos validos de 1 a 7")
         return valor
     def clean_costo_depa(self):
@@ -88,3 +88,25 @@ class NumeroDepaEdificioForm(ModelForm):
     class Meta:
         model = Departamento
         fields = ['nombre', 'costo_depa', 'num_cuartos',  'edificio']
+    def clean_nombre(self):
+        valor = self.cleaned_data['nombre']
+        num_palabras = len(valor.split())
+
+        if num_palabras < 3:
+            raise forms.ValidationError("Ingrese nombre completo por favor")
+        return valor
+
+    def clean_num_cuartos(self):
+        valor = self.cleaned_data['num_cuartos']
+        num_palabras = (valor)
+
+        if num_palabras < 1 or num_palabras > 7:
+            raise forms.ValidationError("Ingrese numero de cuartos validos de 1 a 7")
+        return valor
+    def clean_costo_depa(self):
+        valor = self.cleaned_data['costo_depa']
+        num_palabras = (valor)
+
+        if num_palabras >= 1000:
+            raise forms.ValidationError("El costo no puede ser mayor a $ 1000")
+        return valor    
