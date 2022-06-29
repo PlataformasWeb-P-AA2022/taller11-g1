@@ -1,45 +1,47 @@
 {% extends "master.html" %}
 
 {% block title %}
-  Listado de Estudiantes | {{ block.super }}
+  Listado de Edificios | {{ block.super }}
 {% endblock %}
 
 {% block content %}
-<h3>Número de estudiantes {{ numero_estudiantes }}</h3>
+<h3>Número de edifcios {{ numero_edificios }}</h3>
 
 <table id="tabla_datos">
 
   <thead>
     <tr>
-      <th>Estudiante</th>
-      <th>Cedula</th>
-      <th>Correo</th>
-      <th>Numeros Telefónico </th>
+      <th>Edificios</th>
+      <th>Direccion</th>
+      <th>Ciudad</th>
+      <th>Tipo </th>
+      <th>Departamentos </th>
       <th>Opciones</th>
     </tr>
   </thead>
 
-  {% for e in estudiantes %}
+  {% for e in edifcios %}
   <tr>
-    <td> {{e.nombre}} {{e.apellido}}</td>
-    <td> {{e.cedula}}</td>
-    <td> {{e.correo}}</td>
+    <td> {{e.nombre}} </td>
+    <td> {{e.direccion}}</td>
+    <td> {{e.ciudad}}</td>
+    <td> {{e.tipo}}</td>
     <td>
       <ul>
-        {% for t in e.numeros_telefonicos.all %}
+        {% for t in e.edificio_depa.all %}
           <li>
-            <span>{{t.telefono}} - {{t.tipo}} - [<a href="{% url 'editar_numero_telefonico' t.id %}">editar</a>] </span>
+            <span>{{t.nombre}} - {{t.num_cuartos}} - [<a href="{% url 'editar_departamento' t.id %}">editar</a>] </span>
           </li>
         {% endfor %}
       </ul>
-        <span><b>Total:</b> {{ e.obtener_costo_telefonos }}</span>
+        <span><b>Total:</b> {{ e.obtener_costo_departamentos }}</span>
         <br>
-        <span><b>Total de números:</b> {{ e.obtener_cantidad_telefonos }}</span>
-        <br>[<a href="{% url 'crear_numero_telefonico_estudiante' e.id%}">+Teléfono</a>]
+        <span><b>Total de cuartos:</b> {{ e.obtener_cantidad_cuartos }}</span>
+        <br>[<a href="{% url 'crear_departamento_edificio' e.id%}">+Departamento</a>]
     </td>
-    <td> <a href="{% url 'obtener_estudiante' e.id %}">ver</a> <br>
-      <a href="{% url 'editar_estudiante' e.id %}">editar</a> <br>
-      <a href="{% url 'eliminar_estudiante' e.id %}"
+    <td> <a href="{% url 'obtener_edificio' e.id %}">ver</a> <br>
+      <a href="{% url 'editar_edificio' e.id %}">editar</a> <br>
+      <a href="{% url 'eliminar_edificio' e.id %}"
       onclick="return confirm('¿Está seguro de la eliminación?')" >
       eliminar</a>
     </td>

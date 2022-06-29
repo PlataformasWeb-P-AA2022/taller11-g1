@@ -25,4 +25,4 @@ urlpatterns = [
         path('crear/departamento/edificio/<int:id>', 
             views.crear_departamento_edificio, 
             name='crear_departamento_edificio'),
- ]
+]
